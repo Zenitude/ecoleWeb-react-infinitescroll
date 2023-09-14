@@ -10,7 +10,6 @@ export default function Home () {
     const [ query, setQuery ] = useState("random");
     const [ pageNumber, setPageNumber ] = useState(1);
     const [ perPage ] = useState(30);
-    console.log(query)
     const { error, images, maxPages, loading } = usePhotos(query, pageNumber, perPage);
 
     return(

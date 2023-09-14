@@ -10,8 +10,8 @@ export const usePhotos = (query: string, page: number, perPage: number) => {
     const [ images, setImages ] = useState<ImageType[]>([]);
     const [ maxPages, setMaxPages ] = useState(0);
     const [ loading, setLoading ] = useState(true);
-    const [ accessKey ] = useState(import.meta.env.ACCESS_KEY);
-
+    const accessKey = import.meta.env.VITE_ACCESS_KEY;
+    
     useEffect(() => {
         if(images.length !== 0 && maxPages !== 0) {
             setImages([]);
@@ -20,6 +20,10 @@ export const usePhotos = (query: string, page: number, perPage: number) => {
     }, [query]);
 
     useEffect(() => {
+        if(!accessKey) {
+            console.error("ACCESS_KEY is not defined in import.meta.env");
+            return;
+        }
         fetch(`https://api.unsplash.com/search/photos?page=${page}&per_page=${perPage}&query=${query}&client_id=${accessKey}`)
         .then(response => {
             if(!response.ok) throw new Error(`${response.status}, quelque chose s'est mal passé.`);
